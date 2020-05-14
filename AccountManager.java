@@ -100,7 +100,7 @@ public class AccountManager {
         return inds;
     }
 
-    public Account getAccount(String stateNumber) {
+    public DebitAccount getAccount(String stateNumber) {
         for (Individual individual : individuals) {
             if (individual.get(stateNumber) != null) {
                 return individual.get(stateNumber);
@@ -109,8 +109,8 @@ public class AccountManager {
         return null;
     }
 
-    public Account delete(String Number) {
-        Account ForReturn = getAccount(Number);
+    public DebitAccount delete(String Number) {
+        DebitAccount ForReturn = getAccount(Number);
         for (int i = 0; i < individuals.length; i++) {
             individuals[i].delete(Number);
         }
