@@ -1,52 +1,52 @@
 package Lab_one;
 
 public class AccountManager {
-    private Individual[] individuals;
+    private Individual[] clients;
     private int size;//число физических лиц в массиве
 
     public AccountManager() {
-        individuals = new Individual[size];
+        clients = new Individual[size];
         size = 0;
     }
 
     public AccountManager(int size) {
-        this.individuals = new Individual[individuals.length];
-        for (int i = 0; i < this.individuals.length; i++) {
-            this.individuals[i] = individuals[i];
+        this.clients = new Individual[clients.length];
+        for (int i = 0; i < this.clients.length; i++) {
+            this.clients[i] = clients[i];
         }
-        size = checkPlacedIndividuals(individuals);
+        size = checkPlacedIndividuals(clients);
     }
 
     private void extend() {//метод расширения массива
-        Individual[] newIndividuals = new Individual[individuals.length * 2];
-        for (int i = 0; i < individuals.length; i++) {
-            newIndividuals[i] = individuals[i];
+        Individual[] newIndividuals = new Individual[clients.length * 2];
+        for (int i = 0; i < clients.length; i++) {
+            newIndividuals[i] = clients[i];
         }
-        individuals = newIndividuals;//сравнение значений первого и второго массива
+        clients = newIndividuals;//сравнение значений первого и второго массива
     }
 
-    private int checkPlacedIndividuals(Individual[] individuals) {//метод проверки занятых мест в массиве
+    private int checkPlacedIndividuals(Individual[] clients) {//метод проверки занятых мест в массиве
         int count = 0;//переменная проверки каждого элеменита в массиве
-        for (Individual individual : individuals) {
+        for (Individual individual : clients) {
             if (individual != null) count++;//если ячейка занятая,то счетчик дальше
         }
         return count;//возвращает данные в программу
     }
 
-    public boolean add(Individual individual) {
+    public boolean add(Individual client) {
         if (!checkFreeSpaces()) {
             extend();
             return false;
         } else {
-            lockAdd(individual);
+            lockAdd(client);
             size++;
             return true;
         }
     }
 
-    public boolean add(Individual individual, int link) {//добавляем ссылку в заданное место в массиве
-        if (individuals[link] == null) {//добавить ссылку на экземпляр
-            individuals[link] = individual;
+    public boolean add(Individual client, int link) {//добавляем ссылку в заданное место в массиве
+        if (clients[link] == null) {//добавить ссылку на экземпляр
+            clients[link] = client;
             size++;
             return true;
         } else {
@@ -55,21 +55,21 @@ public class AccountManager {
     }
 
     public Individual get(int number) {
-        return individuals[number];
+        return clients[number];
     }
 
-    public Individual set(Individual individual, int number) {
-        Individual ForReturn = individuals[number];//новый массив который будет возвращать ссылку по заданному номеру ячейки
+    public Individual set(Individual client, int number) {
+        Individual ForReturn = clients[number];//новый массив который будет возвращать ссылку по заданному номеру ячейки
         // новый класс с именем .. имеет в массиве номер ячейки равное number
-        individuals[number] = individual;//значение ячейки массива приравниваем переменной которая возвращает ссылку которую заменили
-        if (individual == null && ForReturn != null) size--;// номер  0 и значение ячейки не равно 0
-        if (individual != null && ForReturn == null) size++;
+        clients[number] = client;//значение ячейки массива приравниваем переменной которая возвращает ссылку которую заменили
+        if (client == null && ForReturn != null) size--;// номер  0 и значение ячейки не равно 0
+        if (client != null && ForReturn == null) size++;
         return ForReturn;
     }
 
     public Individual delete(int number) {
-        Individual GoAway = individuals[number];
-        individuals[number] = null;
+        Individual GoAway = clients[number];
+        clients[number] = null;
         size--;
         return GoAway;
     }
@@ -79,15 +79,15 @@ public class AccountManager {
         return size;
     }
 
-    public Individual[] getIndividuals() {
-        return individuals;
+    public Individual[] getClients() {
+        return clients;
     }
 
 
     public Individual[] getSortedByBalanceIndividuals(){
         trim();
         Individual[] inds = new Individual[size];
-        System.arraycopy(individuals,0,inds,0,size);
+        System.arraycopy(clients,0,inds,0,size);
         for (int i = 0; i < inds.length; i++) {
             for (int j = 0; j < inds.length - 1; j++) {
                 if (inds[j].getTotalBalance() > inds[j + 1].getTotalBalance()) {//массивы имеют строчные данные,присваем значение баланса из класса Individual,чтобы значение масива было целочисленным
@@ -101,9 +101,9 @@ public class AccountManager {
     }
 
     public DebitAccount getAccount(String stateNumber) {
-        for (Individual individual : individuals) {
-            if (individual.get(stateNumber) != null) {
-                return individual.get(stateNumber);
+        for (Individual client : clients) {
+            if (client.get(stateNumber) != null) {
+                return client.get(stateNumber);
             }
         }
         return null;
@@ -111,30 +111,30 @@ public class AccountManager {
 
     public DebitAccount delete(String Number) {
         DebitAccount ForReturn = getAccount(Number);
-        for (int i = 0; i < individuals.length; i++) {
-            individuals[i].delete(Number);
+        for (int i = 0; i < clients.length; i++) {
+            clients[i].delete(Number);
         }
         return ForReturn;
 
     }
     private boolean checkFreeSpaces(){
-        return !(size == individuals.length);
+        return !(size == clients.length);
     }
 
-    private void lockAdd(Individual individual){
-        for(int i = 0; i< individuals.length; i++){
-            if(individuals[i] == null){
-                individuals[i] = individual;
+    private void lockAdd(Individual client){
+        for(int i = 0; i< clients.length; i++){
+            if(clients[i] == null){
+                clients[i] = client;
             }
         }
     }
     private void trim(){
-        for(int i = 0; i< individuals.length; i++){
-            for(int j = 0; j< individuals.length-1; j++){
-                if(individuals[j]==null && individuals[j+1]!=null){
-                    Individual buf = individuals[j];
-                    individuals[j] = individuals[j+1];
-                    individuals[j+1] = buf;
+        for(int i = 0; i< clients.length; i++){
+            for(int j = 0; j< clients.length-1; j++){
+                if(clients[j]==null && clients[j+1]!=null){
+                    Individual buf = clients[j];
+                    clients[j] = clients[j+1];
+                    clients[j+1] = buf;
                 }
             }
         }

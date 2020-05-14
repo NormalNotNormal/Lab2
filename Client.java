@@ -28,7 +28,5 @@ public interface Client {
     public String getName();
 
     public void setName(String Name);
-    //
-
 
 }
